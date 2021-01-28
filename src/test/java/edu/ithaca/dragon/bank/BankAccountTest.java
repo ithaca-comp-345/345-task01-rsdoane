@@ -25,24 +25,24 @@ class BankAccountTest {
     @Test
     void isEmailValidTest(){
         //testing prefix
-        assertTrue(BankAccount.isEmailValid( "a@b.com"));
-        assertTrue(BankAccount.isEmailValid("abc.def@mail.com"));
-        assertTrue(BankAccount.isEmailValid("abc_def@mail.com"));
-        assertTrue(BankAccount.isEmailValid("Ross-Doane@gmail.com"));
-        assertFalse( BankAccount.isEmailValid("abc#def@mail.com"));
-        assertFalse(BankAccount.isEmailValid(".abc@mail.com"));
-        assertFalse(BankAccount.isEmailValid("Ross-@gmail.com"));
-        assertFalse(BankAccount.isEmailValid("Ro..@gmail.com"));
+        assertTrue(BankAccount.isEmailValid( "a@b.com")); // Equivalence Class: No special characters and .com domain
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.com")); // Equivalence Class: Prefix w/ "."
+        assertTrue(BankAccount.isEmailValid("abc_def@mail.com")); // Equivalence Class: Prefix w/ "_"
+        assertTrue(BankAccount.isEmailValid("Ross-Doane@gmail.com")); // Equivalence Class: Prefix w/ "-"
+        assertFalse( BankAccount.isEmailValid("abc#def@mail.com")); // Equivalence Class: Prefix w/ "#"
+        assertFalse(BankAccount.isEmailValid(".abc@mail.com")); // Boarder Case: "." as the first char of the prefix
+        assertFalse(BankAccount.isEmailValid("Ross-@gmail.com")); // Boarder Case: "-" as the last char of the prefix
+        assertFalse(BankAccount.isEmailValid("Ro..@gmail.com")); // Boarder Case: ".." as the last two chars of the prefix
         
         //testing domain
-        assertTrue(BankAccount.isEmailValid( "abc.def@mail.cc"));
-        assertTrue(BankAccount.isEmailValid( "abc.def@mail-archive.com"));
-        assertTrue(BankAccount.isEmailValid( "abc.def@mail.org"));
-        assertTrue(BankAccount.isEmailValid( "abc.def@mail.com"));
-        assertFalse(BankAccount.isEmailValid("abc.def@mail.c"));
-        assertFalse(BankAccount.isEmailValid("abc.def@mail#archive.com"));
-        assertFalse(BankAccount.isEmailValid("abc.def@mail"));
-        assertFalse(BankAccount.isEmailValid("abc.def@mail..com"));
+        assertTrue(BankAccount.isEmailValid( "abc.def@mail.cc")); // Equivalence Class: Domain w/ acceptable last portion
+        assertTrue(BankAccount.isEmailValid( "abc.def@mail-archive.com")); // Equivalence Class: Domain w/ "-"
+        assertTrue(BankAccount.isEmailValid( "abc.def@mail.org")); // Boarder Case: Domain w/ ".org"
+        assertTrue(BankAccount.isEmailValid( "abc.def@mail.com")); // Boarder Case: Domain w/ ".com"
+        assertFalse(BankAccount.isEmailValid("abc.def@mail.c")); // Equivalence Class: Domain w/ unacceptable last portion
+        assertFalse(BankAccount.isEmailValid("abc.def@mail#archive.com")); // Equivalence Class: Domain w/ "#"
+        assertFalse(BankAccount.isEmailValid("abc.def@mail")); // Boarder Case: Domain w/o a last portion
+        assertFalse(BankAccount.isEmailValid("abc.def@mail..com")); //Boarder Case: Domain w/ extra "." before the last portion
     }
 
     @Test
