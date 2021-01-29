@@ -9,8 +9,11 @@ class BankAccountTest {
     @Test
     void getBalanceTest() {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        BankAccount bankAccount2 = new BankAccount("a@b.com", -200);
 
-        assertEquals(200, bankAccount.getBalance());
+        assertEquals(200, bankAccount.getBalance()); //test when balance returns positive number
+        assertEquals(-200, bankAccount.getBalance()); //test when balance returns negative number
+        
     }
 
     @Test
@@ -26,9 +29,9 @@ class BankAccountTest {
         assertEquals(0, bankAccount.getBalance());
 
         //equivalence classes
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(1));
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(1)); //tests to see if it throws when bal < amount
         BankAccount bankAccount2 = new BankAccount("a@b.com", 200);
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-10));
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-10)); //test to see if it throws when amount is negative
         bankAccount.withdraw(100);
         assertEquals(100, bankAccount.getBalance());
     }
