@@ -97,4 +97,28 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 1.234));
     }
 
+    @Test
+    void transferTest() throws InsufficientFundsException {
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        BankAccount bankAccount2 = new BankAccount("a@b.com", 0);
+
+        //edge cases
+        bankAccount.transfer(bankAccount2, 200);
+        assertEquals(0, bankAccount.getBalance());
+        assertEquals(200, bankAccount2.getBalance());
+
+        //equivalence classes
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.transfer(bankAccount2, -10)); //test to see if it throws when amount is negative
+        bankAccount2.transfer(bankAccount, 100);
+
+        assertEquals(100, bankAccount2.getBalance());
+        assertEquals(100, bankAccount.getBalance());
+
+        bankAccount2.transfer(bankAccount, 25.25);
+        assertEquals(125.25, bankAccount.getBalance());
+        assertEquals(74.75, bankAccount2.getBalance());
+
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", -1));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 1.234));
+    }
 }

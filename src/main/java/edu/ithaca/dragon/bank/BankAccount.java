@@ -76,10 +76,17 @@ public class BankAccount {
     }
 
     /**
+     * @throws InsufficientFundsException
      * @post withdraws from one account, and deposits to another.
      */
-    public void transfer(BankAccount account, double amount){
-        
+    public void transfer(BankAccount account, double amount) throws InsufficientFundsException {
+        if(!isAmountValid(amount)){
+            throw new IllegalArgumentException("Amount cannot be negative or over two decimals");
+        }
+        else{
+            withdraw(amount);
+            account.deposit(amount);
+        }
     }
 
 
