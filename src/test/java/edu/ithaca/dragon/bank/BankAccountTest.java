@@ -9,11 +9,7 @@ class BankAccountTest {
     @Test
     void getBalanceTest() {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
-        BankAccount bankAccount2 = new BankAccount("a@b.com", -200);
-
         assertEquals(200, bankAccount.getBalance()); //test when balance returns positive number
-        assertEquals(-200, bankAccount.getBalance()); //test when balance returns negative number
-        
     }
 
     @Test
@@ -23,7 +19,7 @@ class BankAccountTest {
 
         //edge cases
         bankAccount.withdraw(0);
-        assertEquals(11, bankAccount.getBalance());
+        assertEquals(100, bankAccount.getBalance());
 
         bankAccount.withdraw(100);
         assertEquals(0, bankAccount.getBalance());
@@ -31,9 +27,12 @@ class BankAccountTest {
         //equivalence classes
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(1)); //tests to see if it throws when bal < amount
         BankAccount bankAccount2 = new BankAccount("a@b.com", 200);
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-10)); //test to see if it throws when amount is negative
-        bankAccount.withdraw(100);
-        assertEquals(100, bankAccount.getBalance());
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-10)); //test to see if it throws when amount is negative
+        bankAccount2.withdraw(100);
+        assertEquals(0, bankAccount.getBalance());
+
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", -1));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 1.234));
     }
 
     @Test
@@ -67,6 +66,20 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance());
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", -1));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 1.234));
+        
+    }
+
+    @Test
+    void isAmountValidTest(){
+        assertTrue(BankAccount.isAmountValid(0)); //Edge case: closest to negative you can get
+        assertTrue(BankAccount.isAmountValid(1.23)); //Edge case: closest to more than two decimals you can get.
+
+        assertFalse(BankAccount.isAmountValid(-1)); //Equivalence case: Negative
+        assertFalse(BankAccount.isAmountValid(1.234)); //Equivalence case: More than two decimal places.
+
+        
     }
 
 }

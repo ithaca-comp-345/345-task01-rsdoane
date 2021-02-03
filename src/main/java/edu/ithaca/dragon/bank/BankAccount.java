@@ -17,6 +17,9 @@ public class BankAccount {
         else {
             throw new IllegalArgumentException("Email address: " + email + " is invalid, cannot create account");
         }
+        if(!isAmountValid(startingBalance)){
+            throw new IllegalArgumentException("Amount cannot be negative or over two decimals.");
+        }
     }
 
     public double getBalance(){
@@ -31,14 +34,29 @@ public class BankAccount {
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
     public void withdraw (double amount) throws InsufficientFundsException{
-        if (amount <= balance){
-            balance -= amount;
+        if(!isAmountValid(amount)){
+            throw new IllegalArgumentException("Amount cannot be negative or over two decimals");
         }
-        else if(amount < 0){
-            throw new InsufficientFundsException("Cannot subtract negative money.");
+        else if (amount <= balance && amount >= 0){
+            balance -= amount;
         }
         else {
             throw new InsufficientFundsException("Not enough money");
+        }
+    }
+
+    public static boolean isAmountValid(double amount){
+        if(amount < 0){
+            return false;
+        }
+        String amtStr = ""; 
+        amtStr = String.valueOf(amount);
+        int i = amtStr.lastIndexOf('.');
+        if(i != -1 && amtStr.substring(i + 1).length() == 3) {
+         return false;
+            }
+        else{
+            return true;
         }
     }
 
@@ -81,6 +99,9 @@ public class BankAccount {
             return false;
         }
         else if(email.charAt(email.lastIndexOf('.') + 1) == 't'){
+            return false;
+        }
+        else if(email.length() -1 == (email.lastIndexOf('.') + 1)) {
             return false;
         }
         else {
