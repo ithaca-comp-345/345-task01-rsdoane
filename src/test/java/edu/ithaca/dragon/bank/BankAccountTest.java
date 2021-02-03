@@ -77,9 +77,24 @@ class BankAccountTest {
         assertTrue(BankAccount.isAmountValid(1.23)); //Edge case: closest to more than two decimals you can get.
 
         assertFalse(BankAccount.isAmountValid(-1)); //Equivalence case: Negative
-        assertFalse(BankAccount.isAmountValid(1.234)); //Equivalence case: More than two decimal places.
+        assertFalse(BankAccount.isAmountValid(1.234)); //Equivalence case: More than two decimal places.        
+    }
 
-        
+    @Test
+    void depositTest(){
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.deposit(0);
+
+        //edge case
+        assertEquals(200, bankAccount.getBalance());
+
+        //equivalence classes
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-10)); //test to see if it throws when amount is negative
+        bankAccount.deposit(200);
+        assertEquals(400, bankAccount.getBalance());
+
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", -1));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 1.234));
     }
 
 }

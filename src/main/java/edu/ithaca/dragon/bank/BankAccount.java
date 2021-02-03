@@ -67,7 +67,19 @@ public class BankAccount {
      * @post Deposits given double and adds it to balance.
      */
     public void deposit(double amount){
+        if(!isAmountValid(amount)){
+            throw new IllegalArgumentException("Amount cannot be negative or over two decimals");
+        }
+        else{
+            balance += amount;
+        }
+    }
 
+    /**
+     * @post withdraws from one account, and deposits to another.
+     */
+    public void transfer(BankAccount account, double amount){
+        
     }
 
 
