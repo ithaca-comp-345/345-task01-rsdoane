@@ -45,6 +45,9 @@ public class BankAccount {
         }
     }
 
+     /**
+     * @post checks to see if amount is negative or has more than two decimal places
+     */
     public static boolean isAmountValid(double amount){
         if(amount < 0){
             return false;
@@ -59,6 +62,14 @@ public class BankAccount {
             return true;
         }
     }
+
+    /**
+     * @post Deposits given double and adds it to balance.
+     */
+    public void deposit(double amount){
+
+    }
+
 
 
     public static boolean isEmailValid(String email){
